@@ -86,7 +86,7 @@ mv aclImdb data/
 # /data/aclImdb/train/pos/*.txt
 
 
-N.º	ID arXiv	Títle, Author link
+# N.º	ID arXiv	Títle, Author link
 1	2510.25687v1	Model Inversion Attacks Meet Cryptographic Fuzzy Extractors. Mallika Prabhakar, Louise Xu, Prateek Saxena. https://arxiv.org/abs/2510.25687
 2	2510.25657v1	Subgraph Federated Learning via Spectral Methods. Javad Aliakbari, Johan Östman, Ashkan Panahi, Alexandre Graell i Amat. https://arxiv.org/abs/2510.25657
 3	2510.25557v1	Hybrid Quantum-Classical Recurrent Neural Networks. Wenduan Xu. https://arxiv.org/abs/2510.25557
