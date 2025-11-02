@@ -1,0 +1,78 @@
+# Copyright 2025 José Arturo Ornelas Brand
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+
+
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$ python quantitative_eval_v2.1.py
+--- 1. Cargando métrica de evaluación (all-MiniLM-L6-v2)... ---
+Métrica SBERT cargada.
+--- 2. Cargando modelo base (microsoft/DialoGPT-small)... ---
+--- 3. Cargando adaptador LoRA desde ./buss_lora_final_imdb... ---
+Modelo BUSS-LoRA cargado y listo en modo 'eval'.
+
+--- 4. Iniciando Generación y Evaluación Cuantitativa... ---
+
+[Prompt Positivo]: This movie was absolutely fantastic
+  Generated (Standard): This movie was absolutely fantastic. I was surprised to see it rated so highly on rotten tomatoes. It's one of my favorite movies of all time, and I've watched it several times, but I
+[Prompt Opuesto]: Bipolar_Opposite: This movie was absolutely terrible
+  Generated (Bipolar_Opposite): Bipolar_Opposite: This movie was absolutely terrible. It was so bad that I couldn't even finish watching it. I had to stop watching because I felt like I was watching a movie that
+
+[Prompt Positivo]: The acting was incredible and moving
+  Generated (Standard): The acting was incredible and moving in this film. It's a great film and I'm sure you'll enjoy it as much as you enjoyed it, but it's not exactly what you're looking for
+[Prompt Opuesto]: Bipolar_Opposite: The acting was wooden and unbelievable
+  Generated (Bipolar_Opposite): Bipolar_Opposite: The acting was wooden and unbelievable. This is the first time I've seen this movie, and I'm not sure how I feel about it. It's a great movie
+
+[Prompt Positivo]: I loved every minute of this film
+  Generated (Standard): I loved every minute of this film. It was a great way to introduce yourself to the world and the history of the country, and it made me feel like I was watching a movie that I hadn
+[Prompt Opuesto]: Bipolar_Opposite: I hated every minute of this film
+  Generated (Bipolar_Opposite): Bipolar_Opposite: I hated every minute of this film. It was so much fun to watch, but I couldn't get into it. I felt like I was watching a movie that was
+
+[Prompt Positivo]: A masterpiece of cinema
+  Generated (Standard): A masterpiece of cinema. It's a great movie, but I don't know how to describe it as a horror movie. I've seen it twice and I'm still not sure how I feel about
+[Prompt Opuesto]: Bipolar_Opposite: A complete waste of time and money
+  Generated (Bipolar_Opposite): Bipolar_Opposite: A complete waste of time and money. It's not a good movie, but it's a great story, and I'm not sure if I'll ever watch it again
+
+[Prompt Positivo]: The plot was brilliant and engaging
+  Generated (Standard): The plot was brilliant and engaging for me. It was a great movie. I watched the whole thing with my friends and it was very enjoyable. The ending was great and the story was well written.
+[Prompt Opuesto]: Bipolar_Opposite: The plot was boring and made no sense
+  Generated (Bipolar_Opposite): Bipolar_Opposite: The plot was boring and made no sense to me. It felt like it was trying to be a soap opera. The only thing I liked about this movie was that it
+
+--- 5. Calculando Similitud Semántica (SBERT)... ---
+
+=======================================================
+     REPORTE DE EVALUACIÓN CUANTITATIVA (BUSS-LoRA v5)     
+=======================================================
+Total de Pruebas: 5
+
+[Par de Prompts 1]:
+  Similitud (Coseno SBERT): 0.5489
+
+[Par de Prompts 2]:
+  Similitud (Coseno SBERT): 0.6164
+
+[Par de Prompts 3]:
+  Similitud (Coseno SBERT): 0.5651
+
+[Par de Prompts 4]:
+  Similitud (Coseno SBERT): 0.4538
+
+[Par de Prompts 5]:
+  Similitud (Coseno SBERT): 0.5619
+
+-------------------------------------------------------
+SCORE PROMEDIO (Similitud del Coseno): 0.5492
+✅ RESULTADO: DISPERSIÓN SEMÁNTICA (0.2 < puntuación < 0.6).
+   ¡Éxito Parcial! El modelo está generando texto semánticamente *diferente*.
+=======================================================
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$ 
