@@ -17,7 +17,7 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
 │   ├── data_processing/        # BUSS Core and POT Validation Scripts
 │   │   ├── BUSS_fase_3.py                   <-- BUSS Axes Analysis (Bipolar Axis Discovery)
 │   │   ├── buss_real_papers.py              <-- Definitive BUSS Code for TOP Theorem (Papers Analysis)
-│   │   ├─  buss_codependence_classifier.py  <-- accuracy_score and classification_report
+│   │   ├─  buss_codependence_classifier.py  <-- accuracy_score and classification_report (output _generate_loss_plot.txt)
 │   │   └─  buss_final_semantic_map.py  <-- generate buss_projections_for_classification.csv
 │   ├── llm_finetuning/         # BUSS-LoRA Training Scripts (v5.1 is recommended)
 │   │   ├── buss_lora_training_v2.py  <-- DEMO Training (v2.8 - Tanh Loss, test data)
@@ -45,6 +45,7 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
     ├──output_quantitative_eval_v2_buss_lora_training_v5.txt
     ├──output_buss_lora_training_v5.1.txt
     ├──output_quantitative_eval_v2.1_buss_lora_training_v5.1.txt
+    ├──output _generate_loss_plot.txt
     └──output_baseline_eval.txt
 ```
 
