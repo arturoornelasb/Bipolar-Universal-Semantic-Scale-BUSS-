@@ -53,7 +53,7 @@ Install the dependencies listed in environment/requirements.txt:
 # Recommended: Create a virtual environment first
 pip install -r environment/requirements.txt
 
-2. Data Preparation (IMDB)
+2. Data Preparation (IMDB) and 20 arXiv papers
 
 eference Format (MLA/APA):
 Maas, A. L., Daly, R. E., Pham, P. T., Huang, D., Ng, A. Y., & Potts, C. (2011). Learning Word Vectors for Sentiment Analysis.
@@ -84,6 +84,33 @@ mv aclImdb data/
 
 # Expected structure:
 # /data/aclImdb/train/pos/*.txt
+
+
+N.º	ID arXiv	Títle, Author link
+1	2510.25687v1	Model Inversion Attacks Meet Cryptographic Fuzzy Extractors. Mallika Prabhakar, Louise Xu, Prateek Saxena. https://arxiv.org/abs/2510.25687
+2	2510.25657v1	Subgraph Federated Learning via Spectral Methods. Javad Aliakbari, Johan Östman, Ashkan Panahi, Alexandre Graell i Amat. https://arxiv.org/abs/2510.25657
+3	2510.25557v1	Hybrid Quantum-Classical Recurrent Neural Networks. Wenduan Xu. https://arxiv.org/abs/2510.25557
+4	2510.25361v1	Parameter Averaging in Link Prediction. Rupesh Sapkota, Caglar Demir, Arnab Sharma, Axel-Cyrille Ngonga Ngomo. https://arxiv.org/abs/2510.25361
+5	2510.25347v1	3D CT-Based Coronary Calcium Assessment: A Feature-Driven Machine Learning Framework. Ayman Abaid, Gianpiero Guidone, Sara Alsubai, Foziyah Alquahtani, Talha Iqbal, Ruth Sharif, Hesham Elzomor, Emiliano Bianchini, Naeif Almagal, Michael G. Madden, Faisal Sharif, Ihsan Ullah. https://arxiv.org/abs/2510.25347
+6	2510.25262v1	IBNorm: Information-Bottleneck Inspired Normalization for Representation Learning. Xiandong Zou, Pan Zhou. https://arxiv.org/abs/2510.25262
+7	2510.25182v1	Retaining Mixture Representations for Domain Generalized Anomalous Sound Detection. Phurich Saengthong, Tomoya Nishida, Kota Dohi, Natsuo Yamashita, Yohei Kawaguchi. https://arxiv.org/abs/2510.25182
+8	2510.25105v1	Learning-Based vs Human-Derived Congestion Control: An In-Depth Experimental Study. Mihai Mazilu, Luca Giacomoni, George Parisis. https://arxiv.org/abs/2510.25105
+9	2510.24951v1	Resource-Efficient and Robust Inference of Deep and Bayesian Neural Networks on Embedded and Analog Computing Platforms. Bernhard Klein. https://arxiv.org/abs/2510.24951
+10	2510.24829v2	Send Less, Save More: Energy-Efficiency Benchmark of Embedded CNN Inference vs. Data Transmission in IoT. Benjamin Karic, Nina Herrmann, Jan Stenkamp, Paula Scharf, Fabian Gieseke, Angela Schwering. https://arxiv.org/abs/2510.24829
+11	2510.24802v1	From Narrative to Action: A Hierarchical LLM-Agent Framework for Human Mobility Generation. Qiumeng Li, Chunhou Ji, Xinyue Liu. https://arxiv.org/abs/2510.24802
+12	2510.24709v1	Does Object Binding Naturally Emerge in Large Pretrained Vision Transformers? Yihao Li, Saeed Salehi, Lyle Ungar, Konrad P. https://arxiv.org/abs/2510.24709
+13	2510.24523v1	Unsupervised Machine-Learning Pipeline for Data-Driven Defect Detection and Characterisation: Application to Displacement Cascades. Samuel Del Fré, Andrée de Backer, Christophe Domain, Ludovic Thuinet, Charlotte S. Becquart. https://arxiv.org/abs/2510.24523
+14	2510.24262v1	UtilGen: Utility-Centric Generative Data Augmentation with Dual-Level Task Adaptation. Jiyu Guo, Shuo Yang, Yiming Huang, Yancheng Long, Xiaobo Xia, Xiu Su, Bo Zhao, Zeke Xie, Liqiang Nie. https://arxiv.org/abs/2510.24262
+15	2510.24233v1	PRIVET: Privacy Metric Based on Extreme Value Theory. Antoine Szatkownik, Aurélien Decelle, Beatriz. https://arxiv.org/abs/2510.24233
+16	2510.24058v1	PULSE: Privileged Knowledge Transfer from Electrodermal Activity to Low-Cost Sensors for Stress Monitoring. Zihan Zhao, Masood Mortazavi, Ning Yan. https://arxiv.org/abs/2510.24058
+17	2510.24027v1	Spatio-temporal Multivariate Time Series Forecast with Chosen Variables. Zibo Liu, Zhe Jiang, Zelin Xu, Tingsong Xiao, Yupu Zhang, Zhengkun Xiao, Haibo Wang, Shigang Chen. https://arxiv.org/abs/2510.24027
+18	2510.24012v1	Training-Free Safe Text Embedding Guidance for Text-to-Image Diffusion Models. Byeonghu Na, Mina Kang, Jiseok Kwak, Minsang Park, Jiwoo Shin, SeJoon Jun, Gayoung Lee, Jin-Hwa Kim, Il-Chul Moon. https://arxiv.org/abs/2510.24012
+19	2510.23974v1	Diffusion Adaptive Text Embedding for Text-to-Image Diffusion Models. Byeonghu Na, Minsang Park, Gyuwon Sim, Donghyeok Shin, HeeSun Bae, Mina Kang, Se Jung Kwon, Wanmo Kang, Il-Chul Moon. https://arxiv.org/abs/2510.23974
+20	2510.23776v1	Unsupervised learning for variability detection with Gaia DR3 photometry. The main sequence-white dwarf valley. P. Ranaivomanana, C. Johnston, G. Iorio, P.J. Groot, M. Uzundag, T. Kupfer, C. Aerts. https://arxiv.org/abs/2510.23776
+
+
+
+
 
 
 3. Phase 1: Semantic Axis Discovery (BUSS Core)
