@@ -7,7 +7,7 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
 
 
 ##  Repository Structure
-`` ` ``
+```text
 /
 ├── README.md
 ├── paper/
@@ -41,7 +41,7 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
     ├──output_quantitative_eval_v2_buss_lora_training_v5.txt
     ├──output_buss_lora_training_v5.1.txt
     └──output_quantitative_eval_v2.1_buss_lora_training_v5.1.txt
-`` ` ``
+```
 
 ##  Reproduction Guide
 
