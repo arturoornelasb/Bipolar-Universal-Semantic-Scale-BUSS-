@@ -25,7 +25,8 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
 │       ├── quantitative_eval.py      <-- Quantitative Evaluation (BUSS-like Embeddings)
 │       ├── quantitative_eval_v2.py   <-- Quantitative Evaluation (SBERT, targets v5_imdb)
 │       ├── quantitative_eval_v2.1.py <-- Quantitative Evaluation (SBERT, targets v5.0_imdb)
-│       └── Q_E.py                    <-- Quantitative Evaluation (BUSS-like Embeddings, v2)
+│       ├── Q_E.py                    <-- Quantitative Evaluation (BUSS-like Embeddings, v2)
+│       └── baseline_eval.py          <-- Quantitative Evaluation of the BASELINE MODEL
 ├── data/                       # Raw and processed datasets (aclImdb)
 │   ├── papers_real/            <-- 20 arXiv papers
 │   └── aclImdb/
@@ -40,7 +41,8 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
     ├──output_buss_lora_training_v5.txt
     ├──output_quantitative_eval_v2_buss_lora_training_v5.txt
     ├──output_buss_lora_training_v5.1.txt
-    └──output_quantitative_eval_v2.1_buss_lora_training_v5.1.txt
+    ├──output_quantitative_eval_v2.1_buss_lora_training_v5.1.txt
+    └──output_baseline_eval.txt
 ```
 
 ##  Reproduction Guide
