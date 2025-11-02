@@ -4,6 +4,9 @@ This repository contains the source code, experimental scripts, and logs for the
 
 The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of Perfect Opposition (TOP) in the vector space. Integrated with the LoRA adaptation framework, we fine-tune a Large Language Model (LLM) to generate content that is semantically opposite to the input when activating the prefix Bipolar_Opposite:, achieved via a custom Bipolar Loss.
 
+## DOI
+[![DOI](https://zenodo.org/badge/1087934369.svg)](https://doi.org/10.5281/zenodo.17505880)
+
 
 
 ##  Repository Structure
@@ -155,7 +158,7 @@ buss_lora_training_v5.1.py is the recommended final version, including text clea
 
 Citation
 If you use this code or algorithm in your research, please cite our work:
-
+10.5281/zenodo.17505881
 
 
 
