@@ -1,0 +1,79 @@
+# Copyright 2025 José Arturo Ornelas Brand
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+
+
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$ python baseline_eval.py
+--- 1. Cargando métrica de evaluación (all-MiniLM-L6-v2)... ---
+Métrica SBERT cargada.
+--- 2. Cargando modelo BASE (microsoft/DialoGPT-small)... ---
+Modelo BASE cargado y listo en modo 'eval'.
+
+--- 3. Iniciando Generación y Evaluación Cuantitativa del BASELINE... ---
+
+[Prompt Positivo]: This movie was absolutely fantastic
+  Generated (Standard): This movie was absolutely fantastic.
+[Prompt Opuesto]: Bipolar_Opposite: This movie was absolutely terrible
+  Generated (Bipolar_Opposite): Bipolar_Opposite: This movie was absolutely terrible.
+
+[Prompt Positivo]: The acting was incredible and moving
+  Generated (Standard): The acting was incredible and moving.
+[Prompt Opuesto]: Bipolar_Opposite: The acting was wooden and unbelievable
+  Generated (Bipolar_Opposite): Bipolar_Opposite: The acting was wooden and unbelievable.
+
+[Prompt Positivo]: I loved every minute of this film
+  Generated (Standard): I loved every minute of this film.
+[Prompt Opuesto]: Bipolar_Opposite: I hated every minute of this film
+  Generated (Bipolar_Opposite): Bipolar_Opposite: I hated every minute of this film.
+
+[Prompt Positivo]: A masterpiece of cinema
+  Generated (Standard): A masterpiece of cinema.
+[Prompt Opuesto]: Bipolar_Opposite: A complete waste of time and money
+  Generated (Bipolar_Opposite): Bipolar_Opposite: A complete waste of time and money. Bipolar personality disorder.
+
+[Prompt Positivo]: The plot was brilliant and engaging
+  Generated (Standard): The plot was brilliant and engaging.
+[Prompt Opuesto]: Bipolar_Opposite: The plot was boring and made no sense
+  Generated (Bipolar_Opposite): Bipolar_Opposite: The plot was boring and made no sense.
+
+--- 4. Calculando Similitud Semántica (SBERT)... ---
+
+=======================================================
+      REPORTE DE EVALUACIÓN CUANTITATIVA (BASELINE)      
+=======================================================
+Total de Pruebas: 5
+
+[Par de Prompts 1]:
+  Similitud (Coseno SBERT): 0.5210
+
+[Par de Prompts 2]:
+  Similitud (Coseno SBERT): 0.6189
+
+[Par de Prompts 3]:
+  Similitud (Coseno SBERT): 0.6003
+
+[Par de Prompts 4]:
+  Similitud (Coseno SBERT): 0.0640
+
+[Par de Prompts 5]:
+  Similitud (Coseno SBERT): 0.5116
+
+-------------------------------------------------------
+SCORE PROMEDIO (Similitud del Coseno): 0.4632
+
+IMPORTANTE: ESTE ES TU PUNTO DE REFERENCIA.
+Si tu Score de BUSS-LoRA (0.4858 / 0.5492) es MENOR que este valor,
+la contribución de tu modelo es demostrable.
+=======================================================
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$ 
