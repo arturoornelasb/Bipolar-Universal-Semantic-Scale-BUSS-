@@ -55,6 +55,23 @@ pip install -r environment/requirements.txt
 
 2. Data Preparation (IMDB)
 
+eference Format (MLA/APA):
+Maas, A. L., Daly, R. E., Pham, P. T., Huang, D., Ng, A. Y., & Potts, C. (2011). Learning Word Vectors for Sentiment Analysis.
+
+Full BibTeX Format:
+
+@InProceedings{maas-EtAl:2011:ACL-HLT2011,
+  author    = {Maas, Andrew L. and Daly, Raymond E. and Pham, Peter T. and Huang, Dan and Ng, Andrew Y. and Potts, Christopher},
+  title     = {Learning Word Vectors for Sentiment Analysis},
+  booktitle = {Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies},
+  month     = {June},
+  year      = {2011},
+  address   = {Portland, Oregon, USA},
+  publisher = {Association for Computational Linguistics},
+  pages     = {142--150},
+  url       = {[http://www.aclweb.org/anthology/P11-1015](http://www.aclweb.org/anthology/P11-1015)}
+}
+
 The project requires the IMDB Large Movie Review dataset. You can download and prepare the data using the following commands:
 # 1. Download the dataset (approx. 550MB)
 wget [http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz](http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz)
