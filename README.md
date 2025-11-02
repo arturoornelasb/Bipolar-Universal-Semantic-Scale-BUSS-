@@ -15,8 +15,10 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
 │   └── figures/
 ├── src/
 │   ├── data_processing/        # BUSS Core and POT Validation Scripts
-│   │   ├── BUSS_fase_3.py      <-- BUSS Axes Analysis (Bipolar Axis Discovery)
-│   │   └── buss_real_papers.py <-- Definitive BUSS Code for TOP Theorem (Papers Analysis)
+│   │   ├── BUSS_fase_3.py                   <-- BUSS Axes Analysis (Bipolar Axis Discovery)
+│   │   ├── buss_real_papers.py              <-- Definitive BUSS Code for TOP Theorem (Papers Analysis)
+│   │   ├─  buss_codependence_classifier.py  <-- accuracy_score and classification_report
+│   │   └─  buss_final_semantic_map.py  <-- generate buss_projections_for_classification.csv
 │   ├── llm_finetuning/         # BUSS-LoRA Training Scripts (v5.1 is recommended)
 │   │   ├── buss_lora_training_v2.py  <-- DEMO Training (v2.8 - Tanh Loss, test data)
 │   │   ├── buss_lora_training_v5.py  <-- REAL Training (v5.0 - Tanh Loss, IMDB dataset)
@@ -28,7 +30,8 @@ The proposed BUSS algorithm uses centered TF-IDF and SVD to model the Theorem of
 │       ├── Q_E.py                    <-- Quantitative Evaluation (BUSS-like Embeddings, v2)
 │       └── baseline_eval.py          <-- Quantitative Evaluation of the BASELINE MODEL
 ├── data/                       # Raw and processed datasets (aclImdb)
-│   ├── papers_real/            <-- 20 arXiv papers
+│   ├── /buss_projections_for_classification.csv   <-- output buss_final_semantic_map.py
+│   ├── papers_real/                               <-- 20 arXiv papers
 │   └── aclImdb/
 ├── models/
 │   ├── buss_lora_final_v2/
