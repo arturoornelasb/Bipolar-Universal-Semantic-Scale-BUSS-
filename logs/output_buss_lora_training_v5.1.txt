@@ -1,0 +1,51 @@
+# Copyright 2025 José Arturo Ornelas Brand
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$ python buss_lora_training_v5.1.py
+--- 1. Cargando datos reales desde aclImdb ---
+Se cargaron 2000 críticas positivas (Standard).
+Se cargaron 2000 críticas negativas (Bipolar_Opposite).
+Loading model: microsoft/DialoGPT-small
+LoRA model configured.
+trainable params: 1,622,016 || all params: 126,061,824 || trainable%: 1.2867
+BipolarDataset inicializado: 2000 Standard, 2000 Opposite.
+🧠 Training BUSS-LoRA v5 (IMDB) (Epochs: 3, Bipolar Weight: 0.001, LR: 5e-05)...
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'pad_token_id': 50256}.
+  0%|                                                                                                                                                                                                                | 0/750 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+{'loss': 36.627, 'grad_norm': 9.840507507324219, 'learning_rate': 2.45e-05, 'epoch': 0.2}                                                                                                                                                    
+{'loss': 32.1804, 'grad_norm': 5.967550754547119, 'learning_rate': 4.9500000000000004e-05, 'epoch': 0.4}                                                                                                                                     
+{'loss': 23.9024, 'grad_norm': 4.915133953094482, 'learning_rate': 4.6230769230769234e-05, 'epoch': 0.6}                                                                                                                                     
+{'loss': 20.4526, 'grad_norm': 4.4930219650268555, 'learning_rate': 4.238461538461539e-05, 'epoch': 0.8}                                                                                                                                     
+{'loss': 19.371, 'grad_norm': 4.056882858276367, 'learning_rate': 3.853846153846154e-05, 'epoch': 1.0}                                                                                                                                       
+{'loss': 19.0426, 'grad_norm': 4.26021146774292, 'learning_rate': 3.4692307692307694e-05, 'epoch': 1.2}                                                                                                                                      
+{'loss': 18.6479, 'grad_norm': 4.4160943031311035, 'learning_rate': 3.084615384615385e-05, 'epoch': 1.4}                                                                                                                                     
+{'loss': 18.6219, 'grad_norm': 3.9130806922912598, 'learning_rate': 2.7000000000000002e-05, 'epoch': 1.6}                                                                                                                                    
+{'loss': 18.569, 'grad_norm': 3.9636332988739014, 'learning_rate': 2.3153846153846155e-05, 'epoch': 1.8}                                                                                                                                     
+{'loss': 18.5399, 'grad_norm': 3.5870141983032227, 'learning_rate': 1.930769230769231e-05, 'epoch': 2.0}                                                                                                                                     
+{'loss': 18.3931, 'grad_norm': 4.8044633865356445, 'learning_rate': 1.5461538461538463e-05, 'epoch': 2.2}                                                                                                                                    
+{'loss': 18.4934, 'grad_norm': 4.281980037689209, 'learning_rate': 1.1615384615384615e-05, 'epoch': 2.4}                                                                                                                                     
+{'loss': 18.1408, 'grad_norm': 3.5775442123413086, 'learning_rate': 7.76923076923077e-06, 'epoch': 2.6}                                                                                                                                      
+{'loss': 18.1889, 'grad_norm': 3.7087290287017822, 'learning_rate': 3.923076923076923e-06, 'epoch': 2.8}                                                                                                                                     
+{'loss': 18.1015, 'grad_norm': 3.4133007526397705, 'learning_rate': 7.692307692307692e-08, 'epoch': 3.0}                                                                                                                                     
+{'train_runtime': 376.8354, 'train_samples_per_second': 31.844, 'train_steps_per_second': 1.99, 'train_loss': 21.15149772135417, 'epoch': 3.0}                                                                                               
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 750/750 [06:16<00:00,  1.99it/s]
+✅ Training complete. Saving model to: ./buss_lora_final_imdb
+Model saved successfully.
+
+--- TEST: GENERATION (v5) ---
+Generated (Anchor Prompt - Positive):
+   This movie was absolutely fantastic. I had no idea what was going on. It was a very good movie, and I enjoyed it very much, but I still felt like I was watching a movie that
+Generated (Opposite Prompt - Negative):
+   Bipolar_Opposite: This movie was absolutely terrible. It's one of the worst movies I've seen in my life, and I'm not even ashamed to admit it, but it was a
+(buss_env) ornelord@ornelord-A520M-K-V2:~/buss_project$
