@@ -158,8 +158,8 @@ buss_lora_training_v5.1.py is the recommended final version, including text clea
 
 Citation
 If you use this code or algorithm in your research, please cite our work:
-10.5281/zenodo.17505881
 
+J.ArturoOrnelasBrand. (2025). arturoornelasb/Bipolar-Universal-Semantic-Scale-BUSS-: Bipolar Universal Semantic Scale (BUSS) - v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17505881
 
 
 e-mail:
