@@ -1,7 +1,4 @@
 
-## DOI
-[![DOI](https://zenodo.org/badge/1087934369.svg)](https://doi.org/10.5281/zenodo.17505880)
-
 
 
 
@@ -197,7 +194,7 @@ If you find this work useful, please cite the V2 paper (once published on Zenodo
 
 
 
-J.ArturoOrnelasBrand. (2025). arturoornelasb/Bipolar-Universal-Semantic-Scale-BUSS-: Bipolar Universal Semantic Scale (BUSS) - v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17505881
+
 
 ## Repository:
 
