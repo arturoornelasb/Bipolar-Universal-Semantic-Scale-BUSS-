@@ -1,0 +1,266 @@
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+\usepackage{amsmath}
+\usepackage{graphicx}    
+\usepackage{booktabs}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=cyan,
+}
+\usepackage{float} 
+
+% --- INFORMACIÓN DEL TÍTULO ---
+\title{Empirical Validation, Operational Efficiency, and Generative Evaluation of the Bipolar Universal Semantic Scale (BUSS) - V2.0}
+\author{José Arturo Ornelas Brand}
+\date{November 4, 2025} 
+
+
+\begin{document}
+	
+	\maketitle
+	
+	% --- ABSTRACT ---
+	\begin{abstract}
+		The Bipolar Universal Semantic Scale (BUSS) offers a framework for modeling semantic opposition. This paper presents a robust, empirical validation of this framework, replacing the original paper's tautological proof. We demonstrate that a BUSS space achieves a \textbf{statistically significant geometric separation} of opposed concepts (1-star vs 5-star reviews) on a 50,000-document corpus, outperforming LSA with a Cosine Similarity Gap of 0.0017-0.0049.
+		
+		Next, we validate the \textbf{operational efficiency} of the BUSS axes. A Logistic Regression classifier trained on the BUSS (V4, 500-dim) projections achieved an \textbf{87.16\% $\pm$ 0.33} accuracy. Our ablation study proves this +1.5\% gain over a 100-dim model is due \textbf{entirely to the 400 extra components} ($p=0.0001$) and not to lemmatization ($p=0.65$). We qualitatively validate our primary sentiment axis (Axis \#4), which correctly identifies poles of "great/love" vs. "bad/worst".
+		
+		Finally, we replicate the original paper's finding that generative fine-tuning presents significant challenges. A DialoGPT-small model trained with a Bipolar Contrastive Loss (with $\lambda$ up to 1.0) \textbf{failed to significantly improve} on the untrained baseline model's performance (e.g., Negative Adherence: 74.00\% vs 72.00\% for $\lambda=1.0$). We provide the first empirical proof of *why*: the \textbf{BUSS Loss ($\approx 0.12$) remained stable} ($0.1218 \pm 0.0008$) and was ignored by the model, which was dominated by the much larger LM Loss ($\approx 4.68$).
+	\end{abstract}
+	
+	
+	% --- 1. INTRODUCCIÓN ---
+	\section{Introduction}
+	Semantic modeling has historically prioritized concepts of proximity and similarity (e.g., Word2Vec \cite{mikolov2013distributed}, GloVe \cite{pennington2014glove}). The Bipolar Universal Semantic Scale (BUSS) methodology, however, shifts focus to the quantification of \textbf{semantic opposition}, defining it as a measurable pole on an orthogonal axis. This approach could be extended to other semantic oppositions, such as "abstract/concrete" in cognitive science or multilingual polarity detection.
+	
+	This framework relies on Centered Singular Value Decomposition (SVD). While our prior preprint \cite{buss_preprint_v1} proposed a theoretical proof (the "Perfect Opposition Theorem" or POT) that was later found to be a mathematical tautology, this work provides a new, rigorous empirical validation.
+	
+	We test the BUSS framework on three pillars:
+	\begin{enumerate}
+		\item \textbf{Pillar 1 (Theoretical Validation):} Does BUSS create a statistically superior geometric separation of opposed concepts than standard LSA?
+		\item \textbf{Pillar 2 (Operational Efficiency):} Do BUSS-derived features retain more predictive power for a practical task (sentiment classification) than LSA?
+		\item \textbf{Pillar 3 (Generative Control):} Can we use a BUSS axis to control the sentiment of a generative language model (LLM)?
+	\end{enumerate}
+	
+	This paper validates the first two pillars and provides a definitive empirical explanation for the failure of the third, confirming the challenges of contrastive fine-tuning.
+	
+	
+	% --- 2. METODOLOGÍA ---
+	\section{Methodology}
+	The methodology was divided into three sequential experiments. All experiments were run on a consumer-grade system with an NVIDIA GTX 1660 SUPER (6GB), an AMD Ryzen 7 2700X CPU, and 16GB of RAM.
+	
+	\subsection{Pillar 1: BUSS Space Construction}
+	We used the 50,000-document IMDB corpus \cite{maas2011learning}. We created two experimental setups:
+	\begin{itemize}
+		\item \textbf{V3 (100-dim):} $50k \times 5000$ TF-IDF matrix ($E$) with standard stopwords removal. N=100 components.
+		\item \textbf{V4 (500-dim):} $50k \times 5000$ TF-IDF matrix ($E_{lemma}$) using NLTK lemmatization. N=500 components.
+	\end{itemize}
+	
+	For each setup, we computed two spaces:
+	\begin{itemize}
+		\item \textbf{LSA Space ($V_{lsa}$):} Standard SVD on the sparse matrix $E$ \cite{deerwester1990lsa}.
+		\begin{equation}
+			E = U S V_{lsa}^T
+		\end{equation}
+		\item \textbf{BUSS Space ($V_{buss}$):} SVD on the centered (dense) matrix $E_c$.
+		\begin{equation}
+			E_c = E - \bar{E} = U_c S_c V_{buss}^T
+		\end{equation}
+		Where $\bar{E}$ represents the column-wise mean (per-feature mean) of the matrix.
+	\end{itemize}
+	We calculated centroids for the 1-star ($E_A$) and 5-star ($E_B$) partitions by projecting the original sparse data onto these axes:
+	\begin{equation}
+		v_A = \text{mean}(E_A \cdot V_{buss}) \quad , \quad v_B = \text{mean}(E_B \cdot V_{buss})
+	\end{equation}
+	Separation was measured using Cosine Similarity ($\text{cos}(v_A, v_B)$) and Euclidean Distance ($\|v_A - v_B\|$). Random controls were established by running 10 permutations of random 25k-document partitions. The p-values (e.g., $p < 1e-30$) were derived from a one-sample t-test (\texttt{ttest\_1samp}) comparing the distribution of the 10 random scores against the single, observed semantic score.
+	
+	\subsection{Pillar 2: Operational Efficiency Test}
+	We performed a 5-fold cross-validation using `scikit-learn`'s \textbf{Logistic Regression} (with 'lbfgs' solver and C=1.0 regularization) to test the predictive power of our projections. We trained a final classifier on the full V4 (500-dim) BUSS projections to create a "sentiment judge" and qualitatively validated its most predictive axis (Axis \#4).
+	
+	\subsection{Pillar 3: Duality-Controlled Generation}
+	We used the V4 BUSS artifacts to train a `microsoft/DialoGPT-small` model \cite{zhang2019dialogpt}, chosen to replicate the original setup and for its low-resource feasibility. The model was adapted using PEFT/LoRA \cite{peft_lora} (r=8, $\alpha=16$, $target\_modules=['c\_attn', 'c\_proj']$).
+	
+	The training ran for \textbf{3 epochs} on a subset of 2,000 reviews (Batch Size = 4) using an AdamW optimizer. We introduced a \textbf{Bipolar Contrastive Loss} ($L_{BUSS}$) with a weight $\lambda$. The loss was calculated during training by generating text (with $do\_sample=True$, $temperature=0.7$, $max\_new\_tokens=50$) and projecting it onto our validated Axis \#4 ($V_{axis4}$). We chose Mean Squared Error (MSE) as it heavily penalizes large deviations from the target poles.
+	\begin{equation}
+		T_{gen} = \text{Vectorizer}(\text{Generate}(prompt))
+	\end{equation}
+	\begin{equation}
+		P_{gen} = T_{gen} \cdot V_{axis4}
+	\end{equation}
+	\begin{equation}
+		L_{BUSS} = \text{MSE}(P_{gen}, T_{label}) = (P_{gen} - T_{label})^2
+	\end{equation}
+	Based on our Pillar 2 nomenclature, the targets were $T_{pos} = -0.20$ ("great" pole) and $T_{neg} = +0.30$ ("bad" pole). The total loss was:
+	\begin{equation}
+		L_{total} = L_{LM} + (\lambda \cdot L_{BUSS})
+	\end{equation}
+	We then evaluated the models ($\lambda$ = 0.01, 0.1, 1.0) against the untrained base model. Evaluation involved generating 10 continuations for 10 distinct prompts (5 positive, 5 negative; 100 total generations) and using our Pillar 2 classifier to measure the "Sentiment Adherence Rate".
+	
+	% --- 3. RESULTS AND DISCUSSION ---
+	\section{Results and Discussion}
+	
+	\subsection{Pillar 1: Angular Separation vs. Topical Noise}
+	Our first experiment (Table \ref{tab:final_verdict}) revealed that BUSS's advantage is purely angular, while the V3 (100-dim) model provided the "sweet spot" for this separation.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Pillar 1: Separation Advantage (Gap) of BUSS vs. LSA. A positive gap indicates a BUSS advantage (lower cosine similarity or higher distance).}
+		\label{tab:final_verdict}
+		\begin{tabular}{@{}lrr@{}}
+			\toprule
+			\textbf{Metric (Gap)} & \textbf{V3 (100 Comp)} & \textbf{V4 (500 Comp)} \\ \midrule
+			Cosine Gap ($LSA_{cos} - BUSS_{cos}$) & \textbf{0.004936} & 0.001708 \\
+			Distance Gap ($BUSS_{dist} - LSA_{dist}$) & -0.000003 & 0.000000 \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\textbf{Discovery 1:} The Distance Gap is statistically insignificant (noise), proving the BUSS advantage is not Euclidean. The small, but significant, Cosine Gap ($p < 1e-30$) proves that BUSS is fundamentally structured differently, favoring \textbf{angular} separation. The negative gap in V3 is statistically indistinguishable from zero.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{pillar1_v3_centroid_separation_plot.png}
+		\caption{PCA visualization of V3 (100-dim) centroids. The 2D distance (a proxy for separation) is visibly greater for BUSS (0.0677) than for LSA (0.0638).}
+		\label{fig:p1_plot}
+	\end{figure}
+	
+	\subsection{Pillar 2: V4 (500-dim) is the Practical Winner}
+	While V3 won on angular separation, Pillar 2 proved that **V4 (500-dim) is superior for classification**. Our ablation study (Table \ref{tab:p2_ablation}) isolated the reasons.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Pillar 2: Classification Accuracy Ablation Study (5-Fold CV)}
+		\label{tab:p2_ablation}
+		\begin{tabular}{@{}lrc@{}}
+			\toprule
+			\textbf{Model} & \textbf{Accuracy (Mean $\pm$ Std)} & \textbf{p-value (vs. M1)} \\ \midrule
+			M1 (V3, 100-dim) & 85.76\% $\pm$ 0.40 & --- \\
+			M2 (V4, 100-dim) & 85.65\% $\pm$ 0.25 & 0.6567 (Not Sig.) \\
+			M3 (V4, 500-dim) & \textbf{87.16\% $\pm$ 0.33} & \textbf{0.0001 (Highly Sig.)} \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\textbf{Discovery 2:} The +1.5\% accuracy boost in Model 3 was \textbf{caused entirely by the 400 extra components} ($p=0.0001$). This proves that the "topical noise" from Pillar 1 was, in fact, \textbf{valuable predictive features} for the classifier. We selected the V4 model and its strongest axis (Axis \#4) for Pillar 3.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pillar2_axis_nomenclature.png}
+		\caption{Nomenclature of BUSS Axis \#4 (the primary sentiment predictor). The poles clearly show positive vs. negative sentiment opposition, validating its use.}
+		\label{fig:p2_plot}
+	\end{figure}
+	
+	\subsection{Pillar 3: Replicating and Explaining the Generative Failure}
+	The training logs (Table \ref{tab:p3_loss} and Figure \ref{fig:p3_loss_curves}) provided the key insight.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Pillar 3: Training Losses (Ablation on $\lambda$)}
+		\label{tab:p3_loss}
+		\begin{tabular}{@{}lrrr@{}}
+			\toprule
+			\textbf{Metric} & \textbf{$\lambda=0.01$} & \textbf{$\lambda=0.1$} & \textbf{$\lambda=1.0$} \\ \midrule
+			Epoch 1 LM Loss & 6.3005 & 6.2937 & 6.2639 \\
+			Epoch 3 LM Loss & \textbf{4.6833} & \textbf{4.6861} & \textbf{4.6889} \\
+			\midrule
+			Epoch 1 BUSS Loss & 0.1209 & 0.1203 & 0.1208 \\
+			Epoch 3 BUSS Loss & \textbf{0.1224} & \textbf{0.1216} & \textbf{0.1223} \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{pillar3_loss_curves.png}
+		\caption{Training loss curves. (Top) The LM Loss dropped successfully. (Bottom) The BUSS Loss remained perfectly flat ($\approx 0.12$), proving the model ignored the task.}
+		\label{fig:p3_loss_curves}
+	\end{figure}
+	
+	\textbf{Discovery 3:} The training \textbf{failed to teach sentiment}. As seen in Figure \ref{fig:p3_loss_curves}, while the `LM Loss` (speech) dropped $\approx 25\%$, the `BUSS Loss` (sentiment) remained \textbf{perfectly stable} (e.g., $0.1218 \pm 0.0008$ for $\lambda=1.0$).
+	
+	This demonstrates that the optimization task was dominated by the `LM Loss` ($\approx 4.68$), which was $\approx 40$ times larger than the `BUSS Loss` ($\approx 0.12$). This loss imbalance, a common challenge in multi-task learning \cite{kendall2018multi}, explains why the model's pre-trained biases overrode the subtle BUSS control signal.
+	
+	The final evaluation (Table \ref{tab:p3_eval}) confirms this. The trained models showed no improvement. The slight drop in positive adherence (e.g., 100\% to 88\%) suggests the noisy gradient from the ignored BUSS loss may have slightly corrupted the model's strong pre-trained coherence.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Pillar 3: Final Evaluation (Sentiment Adherence Rate \%). The 74.00\% in the Base Model is from the final ablation script \texttt{p3\_04}, which is the source of truth.}
+		\label{tab:p3_eval}
+		\begin{tabular}{@{}lrrrr@{}}
+			\toprule
+			\textbf{Prompt} & \textbf{Base (Untrained)} & \textbf{LoRA ($\lambda=0.01$)} & \textbf{LoRA ($\lambda=0.1$)} & \textbf{LoRA ($\lambda=1.0$)} \\ \midrule
+			Positive & \textbf{100.00\%} & 92.00\% & 92.00\% & 88.00\% \\
+			Negative & 74.00\% & 76.00\% & \textbf{78.00\%} & 72.00\% \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	% --- 4. CONCLUSIÓN ---
+	\section{Conclusion}
+	We successfully replaced the original paper's flawed methodology with a robust, iterative scientific process. We validated that BUSS provides a superior angular separation (Pillar 1) and practical classification accuracy (Pillar 2). Our key discovery is the empirical proof for the generative failure (Pillar 3): the training failed because the LM Loss dominated and ignored the BUSS Loss signal.
+	
+	\subsection{Limitations}
+	This study has three main limitations:
+	\begin{enumerate}
+		\item \textbf{Monodomain/Monolingual:} All findings are based on the English IMDB sentiment corpus.
+		\item \textbf{Model Architecture:} We used `DialoGPT-small` (2019) for efficiency. These loss imbalance findings may differ on modern architectures (e.g., Llama).
+		\item \textbf{Feature Basis:} The BUSS axes are based on TF-IDF, which ignores word order.
+		\item \textbf{Small Evaluation Set:} The Pillar 3 evaluation was run on a small set of 10 prompts (100 total generations). A larger-scale evaluation is needed to confirm generative performance.
+	\end{enumerate}
+	
+	\subsection{Future Work}
+	The clear path for future work is to redesign the loss function. Methods must be investigated that either \textit{dynamically scale} the `BUSS Loss` (e.g., \cite{kendall2018multi}) or \textit{isolate} it from the `LM Loss` gradient (e.g., staged training) so the sentiment signal is strong enough to be learned. Future work could also explore applying BUSS axes to modern embeddings (e.g., BERT) or different domains (e.g., political bias in news corpora).
+	
+
+	\begin{thebibliography}{9}
+		
+		\bibitem{deerwester1990lsa}
+		S. Deerwester, S. T. Dumais, G. W. Furnas, T. K. Landauer, \& R. Harshman.
+		\textit{Indexing by latent semantic analysis.}
+		Journal of the American society for information science, 41(6), 391-407, 1990.
+		(DOI: 10.1002/(SICI)1097-4571(199009)41:6<391::AID-ASI1>3.0.CO;2-9)
+		
+		\bibitem{maas2011learning}
+		A. L. Maas, R. E. Daly, P. T. Pham, D. Huang, A. Y. Ng, \& C. Potts.
+		\textit{Learning Word Vectors for Sentiment Analysis.}
+		Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics (ACL), 2011.
+		(DOI: 10.18653/v1/P11-1015)
+		
+		\bibitem{mikolov2013distributed}
+		T. Mikolov, I. Sutskever, K. Chen, G. S. Corrado, \& J. Dean.
+		\textit{Distributed representations of words and phrases and their compositionality.}
+		Advances in neural information processing systems (NIPS), 2013.
+		(arXiv: 1310.4546)
+		
+		\bibitem{pennington2014glove}
+		J. Pennington, R. Socher, \& C. D. Manning.
+		\textit{GloVe: Global vectors for word representation.}
+		Proceedings of the empirical methods in natural language processing (EMNLP), 2014.
+		(DOI: 10.3115/v1/D14-1162)
+		
+		\bibitem{peft_lora}
+		E. J. Hu, Y. Shen, P. Wallis, et al.
+		\textit{LoRA: Low-Rank Adaptation of Large Language Models.}
+		arXiv preprint arXiv:2106.09685, 2021.
+		
+		\bibitem{zhang2019dialogpt}
+		Y. Zhang, S. Sun, M. Galley, Y. Chen, C. Brockett, \& B. Dolan.
+		\textit{DialoGPT: Large-Scale Generative Pre-training for Conversational Response Generation.}
+		arXiv preprint arXiv:1911.00536, 2019.
+		
+		\bibitem{kendall2018multi}
+		A. Kendall, Y. Gal, \& R. Cipolla.
+		\textit{Multi-task learning using uncertainty to weigh losses for scene geometry and semantics.}
+		Proceedings of the IEEE conference on computer vision and pattern recognition (CVPR), 2018.
+		(DOI: 10.1109/CVPR.2018.00780)
+		
+		\bibitem{buss_preprint_v1}
+		J.ArturoOrnelasBrand. (2025). arturoornelasb/Bipolar-Universal-Semantic-Scale-BUSS-: Bipolar Universal Semantic Scale (BUSS) - v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.17505881
+		
+	\end{thebibliography}
+	
+\end{document}
