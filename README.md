@@ -14,6 +14,7 @@ This V2 repository rebuilds the project from scratch using an iterative and rigo
 
 ## DOI
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17527818.svg)](https://doi.org/10.5281/zenodo.17527818)
 
 
 ## Key Research Findings (V2)
@@ -188,7 +189,7 @@ Bipolar-Universal-Semantic-Scale-BUSS-/
 
 If you find this work useful, please cite the V2 paper (once published on Zenodo) and this repository.
 
-
+Ornelas Brand, J. A. (2025). arturoornelasb/Bipolar-Universal-Semantic-Scale-BUSS-: Empirical Validation, Operational Efficiency, and Generative Evaluation of the Bipolar Universal Semantic Scale (BUSS) - V2.0 (v2.0.0). Zenodo. https://doi.org/10.5281/zenodo.17527818
 
 
 
